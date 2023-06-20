@@ -1,0 +1,6 @@
+.depend
+*.mod
+*.o
+*.full
+*.debug
+tasks
