@@ -9,16 +9,17 @@
       loop = .true.
       count = 0
 
-      write (*,'(A)') '+---------+'
-c     write (*,'(A)') '|         |'
-      write (*,'(A)') '|  TASKS  |'
-c     write (*,'(A)') '|         |'
-      write (*,'(A)') '+---------+'
+                                     
+      write (*,'(/A/)') '                                     TASKS'
+      write (*,'(A/)') '(c) 2023 Tasks Developers'
+
+      
 
 
       do while (loop)
 
          write (*,'(/A)') '1) LIST  2) CREATE  3) DELETE  4) QUIT'
+         write (*,'(A)', advance="no") '> '
          read (*,*) inp
 
          if (inp .eq. 1) then

@@ -34,11 +34,11 @@ c     Input new Task
       
       character(len=64) :: title, comment
 
-      write (*,'(A/A)') 'Create New Task', 'Title:'
+      write (*,'(A/A)', advance="no") 'Create New Task', 'Title:   '
 
       new_id = last_id + 1
       read (*,*) title
-      write (*,'(A)') 'Comment:'
+      write (*,'(A)', advance="no") 'Comment: '
       read (*,*) comment
 
       task%id = new_id
