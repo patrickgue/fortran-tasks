@@ -1,55 +1,53 @@
-      program p_task
-      use m_task
-      implicit none
+      PROGRAM P_TASK
+      USE M_TASK
+      IMPLICIT NONE
 
-      integer :: count, inp
-      logical :: loop
-      type(t_task), dimension(10) :: task
+      INTEGER :: COUNT, INP, I
+      LOGICAL :: LOOP
+      TYPE(T_TASK), ALLOCATABLE :: TASK(:)
+      TYPE(T_TASK), ALLOCATABLE :: TEMP(:)
 
-      loop = .true.
-      count = 0
-
-                                     
-      write (*,'(/A/)') '                                     TASKS'
-      write (*,'(A/)') '(c) 2023 Tasks Developers'
+      LOOP = .TRUE.
+      COUNT = 0
+      COUNT = TASKS_LOAD(TASK)
+      
+      WRITE (*,'(/A/)') '                                     TASKS'
+      WRITE (*,'(A/)') '(C) 2023 TASKS DEVELOPERS'
 
       
 
 
-      do while (loop)
+      DO WHILE (LOOP)
+         WRITE (*,'(/A)') '1) LIST  2) CREATE  3) DELETE  4) QUIT'
+         WRITE (*,'(A)', ADVANCE="NO") '> '
+         READ (*,*) INP
 
-         write (*,'(/A)') '1) LIST  2) CREATE  3) DELETE  4) QUIT'
-         write (*,'(A)', advance="no") '> '
-         read (*,*) inp
-
-         if (inp .eq. 1) then
-            call list_tasks(task, count)
-         else if (inp .eq. 2) then
-            task(count + 1) = new_task(count)
-            count = count + 1
-         else if (inp .eq. 3) then
-            write (*,'(A)') '[Not yet implemented]'
-         else if (inp .eq. 4) then
-            loop = .false.
-         end if
+         IF (INP .eq. 1) THEN
+            CALL LIST_TASKS(TASK, COUNT)
+         ELSE IF (INP .eq. 2) THEN
+C     ;;;;; REALLOCATE TASK
+            ALLOCATE(TEMP(COUNT))
+            DO i = 1, COUNT
+               TEMP(i) = TASK(i)
+            END DO
+            DEALLOCATE(task)
+            ALLOCATE(TASK(COUNT + 1))
+            do i = 1, COUNT
+               TASK(i) = TEMP(i)
+            END do
+            DEALLOCATE(TEMP)
+            TASK(COUNT + 1) = NEW_TASK(COUNT)
+            COUNT = COUNT + 1
+            CALL TASKS_STORE(TASK, COUNT)
+         ELSE IF (INP .eq. 3) THEN
+            WRITE (*,'(A)') '[Not yet implemented]'
+         ELSE IF (INP .eq. 4) THEN
+            LOOP = .FALSE.
+         END IF
          
-      end do
-      end program p_task
+      END DO
+      END PROGRAM P_TASK
 
       
 
-      subroutine list_tasks(task, count)
-      use m_task
-      implicit none
-
-      type(t_task), dimension(10), intent(in) :: task
-      integer, intent(in) :: count
-      integer :: i
-
-      do i = 1, count
-         call task_print(task(i))
-      end do
-      
-
-      end subroutine
 
