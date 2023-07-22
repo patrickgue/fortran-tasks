@@ -2,12 +2,11 @@ C     TASK UTILITIES
       MODULE M_TASK
       PUBLIC T_TASK, TASK_PRINT, TASKS_STORE, TASKS_LOAD, LIST_TASKS
 
-C     TYPE DEFINition OF T_TASK
+C     TYPE DEFINITION OF T_TASK
       TYPE :: T_TASK
-          INTEGER :: ID
-          CHARACTER (LEN=64) :: TITLE, COMMENT
+         INTEGER :: ID
+         CHARACTER (LEN=64) :: TITLE, COMMENT
       END TYPE
-c     Type definition of t_task
 
       CONTAINS
 
@@ -23,14 +22,14 @@ c     Type definition of t_task
       END DO
       END SUBROUTINE
 
-C     Print task instance
+C     PRINT TASK INSTANCE
       SUBROUTINE task_print(task)
       IMPLICIT NONE
       
       type(t_task), INTENT(IN) :: task
       CHARACTER(len=14) :: fmt
 
-      WRITE (*,10) TASK%id, TASK%title, TASK%comment
+      WRITE (*,10) TASK%ID, TASK%TITLE, TASK%COMMENT
  10   FORMAT(I4T6AT32AT32)
       END SUBROUTINE
 
@@ -39,22 +38,22 @@ C     INPUT NEW TASK
       FUNCTION NEW_TASK(LAST_ID) result(TASK)
       IMPLICIT NONE
 
-      INTEGER, INTENT(IN) :: last_id
+      INTEGER, INTENT(IN) :: LAST_ID
       INTEGER :: NEW_ID
       type(t_task) :: TASK
       
-      CHARACTER(len=64) :: title, comment
+      CHARACTER(len=64) :: TITLE, COMMENT
 
-      WRITE (*,'(A/A)', advance="no") 'Create New Task', 'Title:   '
+      WRITE (*,'(A/A)', ADVANCE="NO") 'CREATE NEW TASK', 'TITLE:   '
 
-      new_id = last_id + 1
-      READ (*,*) title
-      WRITE (*,'(A)', advance="no") 'Comment: '
-      READ (*,*) comment
+      NEW_ID = LAST_ID + 1
+      READ (*,*) TITLE
+      WRITE (*,'(A)', ADVANCE="NO") 'COMMENT: '
+      READ (*,*) COMMENT
 
-      TASK%id = new_id
-      TASK%title = title
-      TASK%comment = comment
+      TASK%ID = NEW_ID
+      TASK%TITLE = TITLE
+      TASK%COMMENT = COMMENT
 
       END FUNCTION new_task
 
@@ -69,18 +68,18 @@ C     STORE TASKS
       OPEN(NEWUNIT=IO, FILE="tasks.csv")
  100  FORMAT(I4T6AT32AT32)
  101  FORMAT(I1)
-      WRITE (io,101) COUNT
-      do i = 1, COUNT
-         WRITE (io,100) TASKS(i)%id, TASKS(i)%title, TASKS(i)%comment
-      END do
-      CLOSE(io)
+      WRITE (IO,101) COUNT
+      DO i = 1, COUNT
+         WRITE (io,100) TASKS(i)%ID, TASKS(i)%TITLE, TASKS(i)%COMMENT
+      END DO
+      CLOSE(IO)
       
       END SUBROUTINE TASKS_STORE
 
-      FUNCTION TASKS_LOAD(TASKS) result(COUNT)
+      FUNCTION TASKS_LOAD(TASKS) RESULT(COUNT)
       IMPLICIT NONE
 
-      TYPE(t_task), ALLOCATABLE :: TASKS(:)
+      TYPE(T_TASK), ALLOCATABLE :: TASKS(:)
       INTEGER :: IO, I, COUNT
       LOGICAL :: EXISTS
 
@@ -94,13 +93,13 @@ C     STORE TASKS
          READ (IO,201) COUNT
          ALLOCATE(TASKS(COUNT))
          DO I = 1, COUNT
-            READ(IO,200) TASKS(i)%id, TASKS(i)%title, TASKS(i)%comment
+            READ(IO,200) TASKS(i)%ID, TASKS(i)%TITLE, TASKS(i)%COMMENT
          END DO
          
          CLOSE(IO)
 
       ELSE
-         allocate(TASKS(0))
+         ALLOCATE(TASKS(0))
          COUNT = 0
       END IF
       

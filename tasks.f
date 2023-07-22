@@ -12,7 +12,7 @@
       COUNT = TASKS_LOAD(TASK)
       
       WRITE (*,'(/A/)') '                                     TASKS'
-      WRITE (*,'(A/)') '(C) 2023 TASKS DEVELOPERS'
+      WRITE (*,'(A/)') '(C) 2023 Tasks Developers'
 
       
 
